@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обучение радиолюбителя</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1><i class="fas fa-satellite-dish"></i> Обучение радиолюбителя</h1>
+                <div class="timer-container">
+                    <div class="timer" id="timer">Время: 0:00</div>
+                </div>
+            </div>
+            
+            <div class="category-selector">
+                {% for cat_id, cat_info in categories.items() %}
+                <button class="category-btn" data-category="{{ cat_id }}">
+                    {{ cat_info.name }}
+                </button>
+                {% endfor %}
+            </div>
+            
+            <div class="theme-selector">
+                <button class="theme-btn" data-theme="all">Все темы</button>
+                {% for theme_id, theme_info in themes.items() %}
+                <button class="theme-btn" data-theme="{{ theme_id }}">
+                    {{ theme_info.name }}
+                </button>
+                {% endfor %}
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label class="switch">
+                        <input type="checkbox" id="examToggle">
+                        <span class="slider"></span>
+                        <span class="switch-label">Экзамен</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="shuffleAnswersToggle">
+                        <span class="slider"></span>
+                        <span class="switch-label">Перемешивать ответы</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="shuffleQuestionsToggle">
+                        <span class="slider"></span>
+                        <span class="switch-label">Перемешивать вопросы</span>
+                    </label>
+                    <button id="aboutBtn" class="control-btn">
+                        <i class="fas fa-info-circle"></i> О проекте
+                    </button>
+                </div>
+                <button id="restartBtn" class="control-btn">
+                    <i class="fas fa-redo"></i> Начать заново
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="progress-panel">
+                <h3><i class="fas fa-list-ol"></i> Вопросы</h3>
+                <div class="progress-info">
+                    <span id="progressText">Выберите категорию</span>
+                    <span id="stats">0/0</span>
+                </div>
+                <div class="progress-grid" id="progressGrid">
+                </div>
+            </div>
+
+            <div class="question-panel">
+                <div class="question-header">
+                    <span class="question-number" id="questionNumber">Вопрос #</span>
+                    <span class="question-category" id="questionCategory"></span>
+                </div>
+                
+                <div class="question-text" id="questionText">
+                    Выберите категорию для начала обучения
+                </div>
+                
+                <div class="images-container" id="imagesContainer"></div>
+                
+                <div class="options-container" id="optionsContainer">
+                </div>
+                
+                <div class="navigation">
+                    <button id="prevBtn" class="nav-btn" disabled>
+                        <i class="fas fa-chevron-left"></i> Назад
+                    </button>
+                    <button id="nextBtn" class="nav-btn">
+                        Далее <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button id="showAnswerBtn" class="nav-btn secondary">
+                        <i class="fas fa-lightbulb"></i> Показать ответ
+                    </button>
+                    <button id="finishExamBtn" class="nav-btn exam-finish" style="display: none;">
+                        <i class="fas fa-flag-checkered"></i> Завершить экзамен
+                    </button>
+                </div>
+                
+                <div class="result-panel" id="resultPanel">
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="color-box not-answered"></div>
+                    <span>Не отвечен</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box correct"></div>
+                    <span>Правильно</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box wrong"></div>
+                    <span>Неправильно</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box answered"></div>
+                    <span>Отвечен (экзамен)</span>
+                </div>
+            </div>
+            <div class="footer-info">
+                <span>Всего вопросов: <span id="totalQuestions">0</span></span>
+                <span>Правильных: <span id="correctCount">0</span></span>
+                <span>Процент: <span id="percentage">0%</span></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
